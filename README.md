@@ -1,4 +1,5 @@
 # Crypto Monkz React project 🚀
+
 ![2022-09-17 14 07 31](https://user-images.githubusercontent.com/40623643/190876473-7a882d88-0350-4897-9e78-970e2f748d15.gif)
 
 ### Running the project locally

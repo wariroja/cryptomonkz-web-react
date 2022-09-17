@@ -1,6 +1,6 @@
 # Crypto Monkz React project 🚀
 
-![2022-09-17 14 07 31](https://user-images.githubusercontent.com/40623643/190876473-7a882d88-0350-4897-9e78-970e2f748d15.gif)
+![2022-09-17 14 07 31](https://user-images.githubusercontent.com/40623643/190876664-7653c6bb-e10a-4565-bdc1-aed40c23483e.gif)
 
 ### Running the project locally
 `npm install` to install all of the dependencies

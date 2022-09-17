@@ -1,6 +1,92 @@
-import React from "react";
+import React, { useEffect } from "react";
+import $ from 'jquery'
+import Swiper from 'swiper';
 
-const AboutSection = () => {
+const FractionsSection = () => {
+    useEffect(() => {
+        jqueryFractions()
+    }, [])
+    const jqueryFractions = () => {
+        const fractions = document.querySelector('.fractions')
+const fractionsBottomSlides = document.querySelectorAll('.fractions-swiperBottom .swiper-slide');
+const fractionsTopSlides = document.querySelectorAll('.fractions-swiperTop .swiper-slide');
+ 
+  if(fractions) {
+    let fractionsSwiper = new Swiper(".fractionsSwiper", {
+      slidesPerView: 1,
+      spaceBetween: 0,
+      speed: 1000,
+      allowTouchMove: false,
+    });
+    let fractionsSwiper2 = new Swiper(".fractionsSwiper2", {
+      spaceBetween: 0,
+      speed: 800,
+      direction: "vertical",
+      allowTouchMove: false,
+      breakpoints: {
+        320: {
+          slidesPerView: 3,
+        },
+        769: {
+          slidesPerView: 1,
+        }
+      }
+    });
+  
+    fractionsSwiper2.slideTo(2,0);
+
+    let fractionsElements = document.querySelectorAll('.fractions-el')
+
+    window.addEventListener('scroll', function() {
+      let offset = fractions.getBoundingClientRect();
+      let windowWidth = window.innerWidth;
+
+      if (offset.top < 0 && offset.bottom - window.innerHeight > 0 && windowWidth > 767) {
+        let perc = Math.round(100 * Math.abs(offset.top) / (offset.height - window.innerHeight));
+        if (perc > 10 && perc < 30 ) {
+            fractionsSwiper.slideTo(0, 1000);
+            fractionsSwiper2.slideTo(2, 1000);
+        } else if (perc > 30 && perc < 55 ) {
+            fractionsSwiper.slideTo(1, 1000);
+            fractionsSwiper2.slideTo(1, 1000);
+        } else if (perc > 70 ) {
+            fractionsSwiper.slideTo(2, 1000);
+            fractionsSwiper2.slideTo(0, 1000);
+        }
+      }
+    });
+  
+    fractionsBottomSlides.forEach((s) => {
+      new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            let windowWidth = window.innerWidth;
+            if(windowWidth < 768) {
+              const { slide } = s.dataset;
+              fractionsSwiper.slideTo(slide, 1000);
+            }
+          }
+        },
+        {
+          threshold: .5,
+          // rootMargin: '100px',
+        }
+      ).observe(s);
+    })
+    
+    for(let i = 0; i < fractionsTopSlides.length;  i++) {
+      fractionsTopSlides[i].addEventListener('click', () => {
+        $('html, body').stop().animate({
+          scrollTop: $(fractionsElements[i]).offset().top
+        }, {
+          duration: 1000,  
+          easing: "linear" 
+        });
+      })
+    }
+
+  }
+    }
     return (
         <section className="fractionsSection section"> 
             <div className="wrapper">
@@ -111,4 +197,4 @@ const AboutSection = () => {
     )
 }
 
-export default AboutSection;
+export default FractionsSection;

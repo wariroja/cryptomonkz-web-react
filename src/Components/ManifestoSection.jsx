@@ -1,6 +1,211 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Visible } from "./helper";
+import $ from 'jquery';
 
 const ManifestoSection = () => {
+    useEffect(() => {
+        jqueryManifestoSection()
+    }, [])
+    const jqueryManifestoSection = () => {
+        const manifestoSection = document.querySelector('.manifestoSection');
+
+        if(manifestoSection) {
+      
+          const image = document.querySelector('.manifestoSection .image')
+      
+          let oldScrollY = 0;
+      
+          const manifestoImage = manifestoSection.querySelector('.image')
+      
+          const blockTexts =  manifestoSection.querySelectorAll('.blocks-text p')
+          // const blockTextRight =  manifestoSection.querySelector('.blocks-text-right')
+          const blockLines =  manifestoSection.querySelectorAll('.image-lines .line')
+          const mainTextFirst =  manifestoSection.querySelector('.main-texts__first')
+          const mainTextLast =  manifestoSection.querySelector('.main-texts__last')
+          const mainText =  manifestoSection.querySelector('.main-texts__title')
+      
+          function imageAnimated(noShow) {
+            let windowWidth = window.innerWidth;
+            let parent = manifestoSection.getBoundingClientRect();
+            let perc = Math.round(100 * Math.abs(parent.top) / (parent.height - window.innerHeight));
+            let scrolled = window.pageYOffset || document.documentElement.scrollTop;
+            let dY = scrolled - oldScrollY;
+            let elements = image.querySelectorAll('.step');
+      
+            if(noShow) {
+              if(parent.top > 0) {
+                for(let el of elements) {
+                  el.classList.remove('active')
+                }
+                for(let el of blockLines) {
+                  el.classList.remove('active')
+                }
+                for(let text of blockTexts) {
+                  text.classList.remove('active');
+                  text.classList.remove('noActive');
+                }
+                mainTextFirst.classList.remove('active')
+                mainTextLast.classList.remove('active')
+                mainText.classList.remove('active')
+                // blockLines.classList.remove('active')
+              }
+              return false
+            } else {
+              if(parent.top < 0) {
+                if(dY > 0 ) {
+                  for(let el of elements) {
+                    let data = el.dataset.step
+                    if(perc > 5 && data == '1' ) {
+                      el.classList.add('active')
+                      blockLines[0].classList.add('active')
+                    } else if (perc > 25 && data == '2' ) {
+                      el.classList.add('active')
+                      blockLines[0].classList.remove('active')
+                      blockLines[1].classList.add('active')
+                    } else if (perc > 40 && data == '3' ) {
+                      el.classList.add('active')
+                      blockLines[1].classList.remove('active')
+                      blockLines[2].classList.add('active')
+                    } else if (perc > 55 && data == '4' ) {
+                      el.classList.add('active')
+                      blockLines[2].classList.remove('active')
+                      blockLines[3].classList.add('active')
+                    } else if (perc > 70 && data == '5' ) {
+                      el.classList.add('active')
+                      blockLines[3].classList.remove('active')
+                      blockLines[4].classList.add('active')
+                    }
+                  }
+                  for(let el of blockTexts) {
+                    let data = el.dataset.text
+                    if(perc > 5 && perc < 25) {
+                      data == '1' && el.classList.add('active')
+                      data == '1' && el.classList.remove('noActive')
+                    } else if (perc > 25 && perc < 40) {
+                      data == '1' && el.classList.remove('active')
+                      data == '1' && el.classList.add('noActive')
+                      data == '2' && el.classList.remove('noActive')
+                      data == '2' && el.classList.add('active')
+                    } else if (perc > 40 && perc < 55) {
+                      data == '2' && el.classList.remove('active')
+                      data == '2' && el.classList.add('noActive')
+                      data == '3' && el.classList.remove('noActive')
+                      data == '3' && el.classList.add('active')
+                    } else if (perc > 55 && perc < 70) {
+                      data == '3' && el.classList.remove('active')
+                      data == '3' && el.classList.add('noActive')
+                      data == '4' && el.classList.remove('noActive')
+                      data == '4' && el.classList.add('active')
+                    } else if (perc > 70 && perc < 85) {
+                      data == '4' && el.classList.remove('active')
+                      data == '4' && el.classList.add('noActive')
+                      data == '5' && el.classList.remove('noActive')
+                      data == '5' && el.classList.add('active')
+                    } 
+                  }
+                  // perc > 0 && blockLines.classList.add('active')
+                  if(windowWidth < 769) {
+                    perc > 75 && mainTextFirst.classList.add('active')
+                    perc > 80 && mainText.classList.add('active')
+                    perc > 85 && mainTextLast.classList.add('active')
+                  } else {
+                    perc > 90 && mainTextFirst.classList.add('active')
+                    perc > 94 && mainText.classList.add('active')
+                    perc > 96 && mainTextLast.classList.add('active')
+                  }
+                 
+                } else {
+                  for(let el of elements) {
+                    let data = el.dataset.step
+                    if(perc < 5 && data == '1' ) {
+                      el.classList.remove('active')
+                    } else if (perc < 25 && data == '2' ) {
+                      el.classList.remove('active')
+                    } else if (perc < 40 && data == '3' ) {
+                      el.classList.remove('active')
+                    } else if (perc < 55 && data == '4' ) {
+                      el.classList.remove('active')
+                    } else if (perc < 70 && data == '5' ) {
+                      el.classList.remove('active')
+                    } 
+                  }
+      
+                  for(let el of blockTexts) {
+                    let data = el.dataset.text
+                    if (perc < 5) {
+                      data == '1' && el.classList.remove('active')
+                      blockLines[0].classList.remove('active')
+                    } else if(perc > 10 && perc < 25) {
+                      data == '2' && el.classList.remove('active')
+                      data == '1' && el.classList.remove('noActive')
+                      data == '1' && el.classList.add('active')
+                      blockLines[1].classList.remove('active')
+                      blockLines[0].classList.add('active')
+                    } else if (perc > 25 && perc < 40) {
+                      data == '3' && el.classList.remove('active')
+                      data == '2' && el.classList.remove('noActive')
+                      data == '2' && el.classList.add('active')
+                      blockLines[2].classList.remove('active')
+                      blockLines[1].classList.add('active')
+                    } else if (perc > 40 && perc < 55) {
+                      data == '4' && el.classList.remove('active')
+                      data == '3' && el.classList.remove('noActive')
+                      data == '3' && el.classList.add('active')
+                      blockLines[3].classList.remove('active')
+                      blockLines[2].classList.add('active')
+                    } else if (perc > 55 && perc < 70) {
+                      data == '5' && el.classList.remove('active')
+                      data == '4' && el.classList.remove('noActive')
+                      data == '4' && el.classList.add('active')
+                      blockLines[4].classList.remove('active')
+                      blockLines[3].classList.add('active')
+                    } else if (perc > 70 && perc < 85) {
+                      data == '5' && el.classList.add('active')
+                      blockLines[4].classList.add('active')
+                    } 
+                  }
+                  // perc < 5 && blockLines.classList.remove('active')
+                  if(windowWidth < 769) {
+                    perc < 90 && mainTextFirst.classList.remove('active')
+                    perc < 90 && mainText.classList.remove('active')
+                    perc < 90 && mainTextLast.classList.remove('active')
+                  } else {
+                    perc < 85 && mainTextFirst.classList.remove('active')
+                    perc < 85 && mainText.classList.remove('active')
+                    perc < 85 && mainTextLast.classList.remove('active')
+                  }
+                }
+                oldScrollY = scrolled;
+              }
+            }
+          } 
+      
+            // let div = document.getElementById("fixedDiv");
+            
+            // window.onscroll = function() {
+            //   let scrolled = window.pageYOffset || document.documentElement.scrollTop;
+            //   let dY = scrolled - oldScrollY;
+              
+            //   if ( dY > 0 ){
+            //     console.log(dY, oldScrollY)
+            //   } else {
+            //     console.log(dY, oldScrollY)
+      
+            //   }
+              
+            // }
+      
+      
+          window.addEventListener('scroll', function() {
+            
+            if(image.classList.contains('animated') == false) {
+              Visible (manifestoSection, imageAnimated);
+            }
+          });
+      
+        }
+      
+    }
     return (
         <section className="manifestoSection">
             <div className="wrapper">

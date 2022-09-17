@@ -1,12 +1,8 @@
 import React, { useEffect } from 'react';
-import WOW from 'wowjs';
+import $ from 'jquery'
 
 function Header() {
-    useEffect(() => {
-        new WOW.WOW({
-            live: false
-        }).init();
-      },[]);
+
   return (
     <header className="header">
         <div className="wrapper">

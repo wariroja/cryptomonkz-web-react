@@ -1,6 +1,69 @@
-import React from "react";
-
+import React, { useEffect } from "react";
+import Swiper from 'swiper'
 const TeamSection = () => {
+    useEffect(() => {
+        jQueryTeamSection()
+      }, [])
+      
+      const jQueryTeamSection = () => {
+        const teamSection = document.querySelector('.teamSection')
+        const mouseCursor = document.querySelector('.cursor');
+
+        if(teamSection) {
+          let swiperTeamPreview = new Swiper(".teamPreviewSlider .swiper", {
+            spaceBetween: 30,
+            slidesPerView: 9,
+            freeMode: true,
+            watchSlidesProgress: true,
+            shortSwipes: false,
+            longSwipes: false,
+            
+            breakpoints: {
+              320: {
+                slidesPerView: 4
+              },
+              481: {
+                slidesPerView: 6
+              },
+              769: {
+                slidesPerView: 9
+              }
+            }
+          });
+          let swiperTeam = new Swiper(".teamSwiper .swiper", {
+            spaceBetween: 105,
+            loop: true,
+            navigation: {
+              nextEl: ".teamSwiper-button-next",
+              prevEl: ".teamSwiper-button-prev",
+            },
+            thumbs: {
+              swiper: swiperTeamPreview,
+            },
+            breakpoints: {
+              320: {
+                spaceBetween: 50
+              },
+              999: {
+                spaceBetween: 70
+              }
+            }
+          });
+        
+          const teamPreviewSlides = document.querySelectorAll('.teamPreviewSlider .swiper-slide')
+        
+          for(let teamPreviewSlide of teamPreviewSlides) {
+            teamPreviewSlide.addEventListener('mouseenter', () => {
+              mouseCursor.classList.add('hover')
+            })
+            teamPreviewSlide.addEventListener('mouseleave', () => {
+              mouseCursor.classList.remove('hover')
+            })
+          }
+        
+        }
+      
+      }
     return (
         <section className="teamSection section" data-section="team">
             <div className="wrapper">

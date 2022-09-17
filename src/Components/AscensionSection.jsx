@@ -12,7 +12,6 @@ const AscensionSection = () => {
                 <p className="text wow fadeIn" data-wow-duration=".7s" data-wow-delay="1.4s">Acting as a temporary board of directors known as Chamber Members, individuals are elected to positions that govern the operation of the treasury for a predetermined length of time giving them executive control over governance.
                     <br /><br />
                     The process of feudalistic gamified on-chain combat style election is known as Ascension.</p>
-
                 <div className="blocks">
                     <div className="block">
                         <video no-controls="true" autoPlay loop playsInline muted>
